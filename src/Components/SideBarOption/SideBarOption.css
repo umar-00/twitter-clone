@@ -1,0 +1,14 @@
+.sideBarOption > p {
+  /* font-family: "Ubuntu", sans-serif; */
+  font-family: "Quicksand", sans-serif;
+}
+
+.sideBarOption:hover {
+  /* background-color: #e8f5fe; */
+  color: var(--twitter-color);
+  transition: color 100ms ease-out;
+}
+
+.sideBarOption--active {
+  color: var(--twitter-color);
+}
