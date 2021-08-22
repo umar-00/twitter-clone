@@ -1,7 +1,8 @@
-/* .sidebar__container {
-  padding: 20px;
-  border: 2px solid black;
-} */
+.sidebar__container {
+  /* padding: 20px; */
+  /* border: 2px solid black; */
+  flex: 0.3;
+}
 
 .sidebar__tweet {
   background-color: var(--twitter-color) !important;
@@ -17,4 +18,10 @@
 
 .twitterIcon {
   color: var(--twitter-color);
+  font-size: 35px !important;
 }
+
+/* .hashtagIcon {
+  font-size: 40px !important;
+  background-color: red;
+} */

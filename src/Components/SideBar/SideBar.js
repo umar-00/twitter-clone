@@ -4,7 +4,8 @@ import React from "react";
 import "./SideBar.css";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import HomeIcon from "@material-ui/icons/Home";
-import SearchIcon from "@material-ui/icons/Search";
+import { FaHashtag } from "react-icons/fa";
+// import SearchIcon from "@material-ui/icons/Search";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -18,10 +19,11 @@ import SideBarOption from "../SideBarOption/SideBarOption";
 
 const SideBar = () => {
   return (
-    <div className="sidebar__container p-2 border-2 p-10">
-      <TwitterIcon className="twitterIcon" fontSize="large" />
+    <div className="sidebar__container border-r-2 pt-4 px-10">
+      <TwitterIcon className="twitterIcon ml-3 mb-4" fontSize="large" />
+
       <SideBarOption active Icon={HomeIcon} text={"Home"} />
-      <SideBarOption Icon={SearchIcon} text={"Explore"} />
+      <SideBarOption hashTagStyle={"mx-5"} Icon={FaHashtag} text={"Explore"} />
       <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
       <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
       <SideBarOption Icon={BookmarkBorderIcon} text={"Bookmarks"} />

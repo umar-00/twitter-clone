@@ -1,3 +1,17 @@
+.feed__container {
+  flex: 0.4;
+  min-width: fit-content;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  /* width: 20%; */
+  /* background-color: lightcoral; */
+}
+
+.feed__container::-webkit-scrollbar {
+  display: none;
+}
+
 .feed__container > h1 {
   font-family: "Quicksand", sans-serif;
 }
