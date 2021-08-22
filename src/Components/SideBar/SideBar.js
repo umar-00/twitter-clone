@@ -31,7 +31,7 @@ const SideBar = () => {
       <SideBarOption Icon={PermIdentityIcon} text={"Profile"} />
       <SideBarOption Icon={MoreHorizIcon} text={"More"} />
 
-      <Button variant="outlined" className="sidebar__tweet" fullWidth>
+      <Button variant="outlined" className="sidebar__tweet__button" fullWidth>
         Tweet
       </Button>
     </div>
