@@ -17,6 +17,16 @@ module.exports = {
         "5/7": "71.4285714%",
         "6/7": "85.7142857%",
       },
+      minWidth: {
+        "75px": "75px",
+        "385px": "385px",
+      },
+      screens: {
+        tablet: "950px",
+        // => @media (min-width: 950px) { ... }
+        mobile: "500px",
+        // => @media (min-width: 500px) { ... }
+      },
     },
   },
   variants: {

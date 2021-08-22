@@ -19,22 +19,40 @@ import SideBarOption from "../SideBarOption/SideBarOption";
 
 const SideBar = () => {
   return (
-    <div className="flex flex-col items-center xl:block sidebar__container border-r-2 pt-4 px-3 xl:px-10 w-1/12 xl:w-3/12">
-      <TwitterIcon className="twitterIcon xl:ml-3 mb-4" fontSize="large" />
+    <>
+      {/* The following div is visible on screen-width > 500px (desktop/tablet use) */}
+      <div className="sideBar__web__container flex-col items-center sidebar__container border-r-2 pt-4 px-3 hidden mobile:flex xl:items-start min-w-75px xl:block xl:px-10 w-1/12 xl:w-3/12">
+        <TwitterIcon className="twitterIcon xl:ml-3 mb-4" fontSize="large" />
+        <SideBarOption active Icon={HomeIcon} text={"Home"} />
+        <SideBarOption
+          hashTagStyle={"mx-5"}
+          Icon={FaHashtag}
+          text={"Explore"}
+        />
+        <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
+        <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
+        <SideBarOption Icon={BookmarkBorderIcon} text={"Bookmarks"} />
+        <SideBarOption Icon={ListAltIcon} text={"Lists"} />
+        <SideBarOption Icon={PermIdentityIcon} text={"Profile"} />
+        <SideBarOption Icon={MoreHorizIcon} text={"More"} />
 
-      <SideBarOption active Icon={HomeIcon} text={"Home"} />
-      <SideBarOption hashTagStyle={"mx-5"} Icon={FaHashtag} text={"Explore"} />
-      <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
-      <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
-      <SideBarOption Icon={BookmarkBorderIcon} text={"Bookmarks"} />
-      <SideBarOption Icon={ListAltIcon} text={"Lists"} />
-      <SideBarOption Icon={PermIdentityIcon} text={"Profile"} />
-      <SideBarOption Icon={MoreHorizIcon} text={"More"} />
+        <Button variant="outlined" className="sidebar__tweet__button" fullWidth>
+          Tweet
+        </Button>
+      </div>
 
-      <Button variant="outlined" className="sidebar__tweet__button" fullWidth>
-        Tweet
-      </Button>
-    </div>
+      {/* The following div is visible on screen-width > 500px (mobile use) */}
+      <div className="sideBar__mob__container flex order-last z-50 border-t-2 shadow-2xl justify-between mobile:hidden">
+        <SideBarOption active Icon={HomeIcon} text={"Home"} />
+        <SideBarOption
+          hashTagStyle={"mx-5"}
+          Icon={FaHashtag}
+          text={"Explore"}
+        />
+        <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
+        <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
+      </div>
+    </>
   );
 };
 
