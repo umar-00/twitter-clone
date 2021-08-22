@@ -1,6 +1,7 @@
 .feed__container {
-  flex: 0.4;
-  min-width: fit-content;
+  /* flex: 0.4; */
+  /* min-width: fit-content; */
+  /* width: 40%; */
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

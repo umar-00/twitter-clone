@@ -1,7 +1,8 @@
 .sidebar__container {
   /* padding: 20px; */
   /* border: 2px solid black; */
-  flex: 0.3;
+  /* flex: 0.3; */
+  /* width: 20%; */
 }
 
 .sidebar__tweet__button {

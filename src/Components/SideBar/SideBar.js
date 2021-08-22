@@ -19,8 +19,8 @@ import SideBarOption from "../SideBarOption/SideBarOption";
 
 const SideBar = () => {
   return (
-    <div className="sidebar__container border-r-2 pt-4 px-10">
-      <TwitterIcon className="twitterIcon ml-3 mb-4" fontSize="large" />
+    <div className="flex flex-col items-center xl:block sidebar__container border-r-2 pt-4 px-3 xl:px-10 w-1/12 xl:w-3/12">
+      <TwitterIcon className="twitterIcon xl:ml-3 mb-4" fontSize="large" />
 
       <SideBarOption active Icon={HomeIcon} text={"Home"} />
       <SideBarOption hashTagStyle={"mx-5"} Icon={FaHashtag} text={"Explore"} />

@@ -1,4 +1,21 @@
 .widgets__container {
-  flex: 0.3;
+  /* flex: 0.3; */
   /* background-color: red; */
+  /* width: 30%; */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  overflow-y: scroll;
+}
+
+.widgets__container::-webkit-scrollbar {
+  display: none;
+}
+
+.widgets__widgetsContainer {
+  /* width: 350px; */
+}
+
+.tweetEmbed {
+  margin: 0 auto;
 }

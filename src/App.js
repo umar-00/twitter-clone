@@ -6,7 +6,7 @@ import Widgets from "./Components/Widgets/Widgets";
 
 function App() {
   return (
-    <div className="app border-2 flex max-w-screen-2xl mx-auto h-screen w-screen px-2">
+    <div className="app flex max-w-screen-2xl mx-auto h-screen w-screen">
       {/* Sidebar */}
       <SideBar />
 

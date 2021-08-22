@@ -9,7 +9,7 @@ const SideBarOption = ({ active, hashTagStyle, Icon, text }) => {
       } flex flex-row items-center cursor-pointer hover:bg-blue-50 rounded-full`}
     >
       <Icon className={`m-4 ${hashTagStyle}`} />
-      <p className="font-bold text-lg mr-4">{text}</p>
+      <p className="font-bold text-lg mr-4 hidden xl:block">{text}</p>
     </div>
   );
 };
