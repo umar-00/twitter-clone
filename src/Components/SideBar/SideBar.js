@@ -42,7 +42,7 @@ const SideBar = () => {
       </div>
 
       {/* The following div is visible on screen-width > 500px (mobile use) */}
-      <div className="sideBar__mob__container flex order-last z-50 border-t-2 shadow-2xl justify-between mobile:hidden">
+      <div className="sideBar__mob__container flex order-last z-50 border-t-2 justify-between mobile:hidden">
         <SideBarOption active Icon={HomeIcon} text={"Home"} />
         <SideBarOption
           hashTagStyle={"mx-5"}
