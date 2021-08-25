@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { auth } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import { useStateValue } from "../../StateProvider";
@@ -12,6 +12,39 @@ const DashBoard = () => {
   const [{ user }, dispatch] = useStateValue();
 
   const history = useHistory();
+
+  console.log("testing dashboard");
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // var uid = user.uid;
+        // console.log("Listening: logged in");
+        console.log("Listening:", user.displayName);
+
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: user,
+        });
+        dispatch({
+          type: actionTypes.SET_ISLOGGEDIN,
+          isLoggedIn: true,
+        });
+        dispatch({
+          type: actionTypes.SET_USERID,
+          userId: user.uid,
+        });
+      } else {
+        console.log("User is logged out");
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
+
+  // console.log("User from login:", user);
+  // console.log("Boolean from login:", isLoggedIn);
+  // console.log("UserId from login:", userId);
 
   const signOut = () => {
     auth
