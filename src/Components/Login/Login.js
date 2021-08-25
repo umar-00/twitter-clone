@@ -1,18 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { auth, provider } from "../../firebase";
+import { useStateValue } from "../../StateProvider";
+import { actionTypes } from "../../reducer";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  // Triggered on button submit
+  // const [stateUser, setStateUser] = useState();
+  const [{ user }, dispatch] = useStateValue();
+  console.log("User from login:", user);
+
+  const history = useHistory();
+
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       // var uid = user.uid;
+  //       // console.log("Listening: logged in");
+  //       console.log("Listening:", user.displayName);
+
+  //       dispatch({
+  //         type: actionTypes.SET_USER,
+  //         user: user,
+  //       });
+  //       dispatch({
+  //         type: actionTypes.SET_USERID,
+  //         userId: user.uid,
+  //       });
+  //       // console.log("mutating state, pushing history");
+  //       // console.log("From login page:", user);
+  //       // history.push("/");
+
+  //       // console.log("")
+  //       // ...
+  //     } else {
+  //       console.log("User is logged out");
+  //       // User is signed out
+  //       // ...
+  //     }
+  //   });
+
+  //   // authObserver();
+
+  //   // return unsubscribe;
+  // }, []);
+
+  // Triggered by SignIn button onClick
   const signIn = () => {
     auth
       .signInWithPopup(provider)
-      .then((result) => console.log(result))
+      .then((result) => {
+        // dispatch({
+        //   type: actionTypes.SET_USER,
+        //   user: result.user,
+        // });
+        dispatch({
+          type: actionTypes.SET_TOKEN,
+          token: result.credential.accessToken,
+        });
+        // dispatch({
+        //   type: actionTypes.SET_USERID,
+        //   userId: result.user.uid,
+        // });
+        //   console.log("mutating state, pushing history");
+        //   console.log("From login page:", result.user);
+        history.push("/");
+      })
       .catch((error) => alert(error.message));
+
+    // console.log("hello");
   };
 
   return (
-    <div className="login flex items-center bg-gray-100 w-full h-full">
+    <div className="login flex items-center bg-gray-100 w-screen h-screen">
       <div className="login__container flex flex-col bg-white items-center m-auto w-2/6 rounded-xl border-2 shadow-lg p-8">
         <img
           src="http://static.dezeen.com/uploads/2012/06/dezeen_twitter-bird.gif"

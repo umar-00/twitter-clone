@@ -1,25 +1,58 @@
 import React, { useState, useEffect } from "react";
-import db from "../../firebase";
+import { useStateValue } from "../../StateProvider";
+import db, { auth } from "../../firebase";
 import FlipMove from "react-flip-move";
+import { actionTypes } from "../../reducer";
 
 //CSS and icons
 import "./Feed.css";
 import { HiOutlineSparkles } from "react-icons/hi";
 import TweetBox from "../TweetBox/TweetBox";
 import TweetPost from "../TweetPost/TweetPost";
-import avatarImage from "../../Images/tweetbox-avatar.png";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
+  const [{ user, token, userId }, dispatch] = useStateValue();
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
-    db.collection("posts").onSnapshot((snapshot) => {
-      setPosts(snapshot.docs.map((doc) => [doc.id, doc.data()]));
+    db.collection("posts")
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        setPosts(snapshot.docs.map((doc) => [doc.id, doc.data()]));
+      });
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // var uid = user.uid;
+        // console.log("Listening: logged in");
+        console.log("Listening:", user.displayName);
+
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: user,
+        });
+        dispatch({
+          type: actionTypes.SET_USERID,
+          userId: user.uid,
+        });
+        // console.log("mutating state, pushing history");
+        // console.log("From login page:", user);
+        // history.push("/");
+
+        // console.log("")
+        // ...
+      } else {
+        console.log("User is logged out");
+        // User is signed out
+        // ...
+      }
     });
   }, []);
 
-  // console.log(posts);
+  console.log("User from login:", user);
+  console.log("Token from login:", token);
+  console.log("UserId from login:", userId);
 
   return (
     <div className="feed__container border-r-2 w-full sm:mr-16 tablet:mr-0 sm:w-8/12 tablet:w-6/12">
@@ -30,7 +63,7 @@ const Feed = () => {
         <HiOutlineSparkles className="text-2xl stroke-current text-primary" />
       </div>
 
-      <TweetBox />
+      <TweetBox avatarImage={user?.photoURL} displName={user?.displayName} />
       <FlipMove>
         {/* Renders TweetPost components. post[0] is doc.id, post[1] is 
         doc.data() object, both fetched from DB in useEffect above*/}

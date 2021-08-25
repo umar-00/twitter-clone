@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Icons and CSS
 import "./SideBar.css";
@@ -17,13 +18,18 @@ import { Button } from "@material-ui/core";
 //Components
 import SideBarOption from "../SideBarOption/SideBarOption";
 
-const SideBar = () => {
+const SideBar = ({ onLogOutClick }) => {
   return (
     <>
       {/* The following div is visible on screen-width > 500px (desktop/tablet use) */}
       <div className="sideBar__web__container flex-col items-center sidebar__container border-r-2 pt-4 px-3 hidden mobile:flex xl:items-start min-w-75px xl:block xl:px-10 w-1/12 xl:w-3/12">
         <TwitterIcon className="twitterIcon xl:ml-3 mb-4" fontSize="large" />
         <SideBarOption active Icon={HomeIcon} text={"Home"} />
+        <SideBarOption
+          Icon={PermIdentityIcon}
+          text={"Log Out"}
+          onClick={onLogOutClick}
+        />
         <SideBarOption
           hashTagStyle={"mx-5"}
           Icon={FaHashtag}
@@ -33,7 +39,6 @@ const SideBar = () => {
         <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
         <SideBarOption Icon={BookmarkBorderIcon} text={"Bookmarks"} />
         <SideBarOption Icon={ListAltIcon} text={"Lists"} />
-        <SideBarOption Icon={PermIdentityIcon} text={"Profile"} />
         <SideBarOption Icon={MoreHorizIcon} text={"More"} />
 
         <Button variant="outlined" className="sidebar__tweet__button" fullWidth>

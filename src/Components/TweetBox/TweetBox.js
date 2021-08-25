@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import db from "../../firebase";
+import firebase from "firebase";
 
 import "./TweetBox.css";
 import { Avatar, Button } from "@material-ui/core";
-import avatarImage from "../../Images/tweetbox-avatar.png";
+// import avatarImage from "../../Images/tweetbox-avatar.png";
 
-const TweetBox = () => {
+const TweetBox = ({ avatarImage, displName }) => {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
   // console.log(tweetMessage);
@@ -14,21 +15,26 @@ const TweetBox = () => {
   const sendTweet = (e) => {
     e.preventDefault();
 
+    // Create server timestamp for when tweet is sent
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+
     // Posting input data to firebase DB as a new document
     db.collection("posts").add({
-      avatarImg: "",
-      displayName: "Ahmad Affan",
+      avatarImg: avatarImage,
+      displayName: displName,
       image: tweetImage,
       text: tweetMessage,
-      userName: "affann_12",
-      verified: false,
+      userName: displName.slice(0, 4),
+      verified: true,
+      createdAt: timestamp(),
     });
 
     setTweetMessage("");
+    setTweetImage("");
   };
 
   return (
-    <div className="tweetBox border-b-8 mt-1">
+    <div className="tweetBox border-b-8 mt-3">
       <form className="flex flex-col p-3">
         <div className="tweetBox__input flex justify-between">
           <Avatar src={avatarImage} style={{ height: "50px", width: "50px" }} />
