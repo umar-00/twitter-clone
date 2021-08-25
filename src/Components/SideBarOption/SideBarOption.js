@@ -1,7 +1,7 @@
 import React from "react";
 import "./SideBarOption.css";
 
-const SideBarOption = ({ active, hashTagStyle, Icon, text, onClick }) => {
+const SideBarOption = ({ active, reactIconsStyle, Icon, text, onClick }) => {
   return (
     <div
       className={`sideBarOption ${
@@ -10,7 +10,7 @@ const SideBarOption = ({ active, hashTagStyle, Icon, text, onClick }) => {
       onClick={onClick}
       style={{ userSelect: "none" }}
     >
-      <Icon className={`m-4 ${hashTagStyle}`} />
+      <Icon className={`m-4 ${reactIconsStyle}`} />
       <p className="font-bold text-lg mr-4 hidden xl:block">{text}</p>
     </div>
   );

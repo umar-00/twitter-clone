@@ -22,8 +22,8 @@ const DashBoard = () => {
           user: null,
         });
         dispatch({
-          type: actionTypes.SET_TOKEN,
-          token: null,
+          type: actionTypes.SET_ISLOGGEDIN,
+          isLoggedIn: false,
         });
         dispatch({
           type: actionTypes.SET_USERID,

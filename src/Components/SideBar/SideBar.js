@@ -13,6 +13,7 @@ import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
+import { ImSwitch } from "react-icons/im";
 import { Button } from "@material-ui/core";
 
 //Components
@@ -25,15 +26,18 @@ const SideBar = ({ onLogOutClick }) => {
       <div className="sideBar__web__container flex-col items-center sidebar__container border-r-2 pt-4 px-3 hidden mobile:flex xl:items-start min-w-75px xl:block xl:px-10 w-1/12 xl:w-3/12">
         <TwitterIcon className="twitterIcon xl:ml-3 mb-4" fontSize="large" />
         <SideBarOption active Icon={HomeIcon} text={"Home"} />
+        <SideBarOption Icon={PermIdentityIcon} text={"Profile"} />
+
         <SideBarOption
-          Icon={PermIdentityIcon}
+          Icon={ImSwitch}
           text={"Log Out"}
+          reactIconsStyle={"mx-5"}
           onClick={onLogOutClick}
         />
         <SideBarOption
-          hashTagStyle={"mx-5"}
           Icon={FaHashtag}
           text={"Explore"}
+          reactIconsStyle={"mx-5"}
         />
         <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
         <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />

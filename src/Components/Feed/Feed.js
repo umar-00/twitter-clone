@@ -12,7 +12,7 @@ import TweetPost from "../TweetPost/TweetPost";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [{ user, token, userId }, dispatch] = useStateValue();
+  const [{ user, isLoggedIn, userId }, dispatch] = useStateValue();
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
@@ -33,6 +33,10 @@ const Feed = () => {
           user: user,
         });
         dispatch({
+          type: actionTypes.SET_ISLOGGEDIN,
+          isLoggedIn: true,
+        });
+        dispatch({
           type: actionTypes.SET_USERID,
           userId: user.uid,
         });
@@ -51,7 +55,7 @@ const Feed = () => {
   }, []);
 
   console.log("User from login:", user);
-  console.log("Token from login:", token);
+  console.log("Boolean from login:", isLoggedIn);
   console.log("UserId from login:", userId);
 
   return (

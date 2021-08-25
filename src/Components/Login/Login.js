@@ -7,7 +7,8 @@ import { useHistory } from "react-router-dom";
 
 const Login = () => {
   // const [stateUser, setStateUser] = useState();
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, isLoggedIn }, dispatch] = useStateValue();
+  console.log("Boolean from login:", isLoggedIn);
   console.log("User from login:", user);
 
   const history = useHistory();
@@ -55,8 +56,8 @@ const Login = () => {
         //   user: result.user,
         // });
         dispatch({
-          type: actionTypes.SET_TOKEN,
-          token: result.credential.accessToken,
+          type: actionTypes.SET_ISLOGGEDIN,
+          isLoggedIn: true,
         });
         // dispatch({
         //   type: actionTypes.SET_USERID,

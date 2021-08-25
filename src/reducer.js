@@ -1,12 +1,12 @@
 export const initialState = {
   user: null,
-  token: null,
+  isLoggedIn: false,
   userId: null,
 };
 
 export const actionTypes = {
   SET_USER: "SET_USER",
-  SET_TOKEN: "SET_TOKEN",
+  SET_ISLOGGEDIN: "SET_ISLOGGEDIN",
   SET_USERID: "SET_USERID",
 };
 
@@ -21,10 +21,10 @@ const reducer = (state, action) => {
         user: action.user,
       };
 
-    case actionTypes.SET_TOKEN:
+    case actionTypes.SET_ISLOGGEDIN:
       return {
         ...state,
-        token: action.token,
+        isLoggedIn: action.isLoggedIn,
       };
 
     case actionTypes.SET_USERID:

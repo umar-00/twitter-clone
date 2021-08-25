@@ -1,6 +1,7 @@
 import React from "react";
-import { useStateValue } from "./StateProvider";
+// import { useStateValue } from "./StateProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 
 import "./App.css";
 import "tailwindcss/tailwind.css";
@@ -11,7 +12,7 @@ import Login from "./Components/Login/Login";
 import DashBoard from "./Components/DashBoard/DashBoard";
 
 function App() {
-  const [{ user }, dispatch] = useStateValue();
+  // const [{ user }, dispatch] = useStateValue();
   // console.log("user", user);
   // console.log("token", token);
   // console.log("userId", userId);
