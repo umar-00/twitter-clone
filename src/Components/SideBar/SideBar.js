@@ -34,16 +34,16 @@ const SideBar = ({ onLogOutClick }) => {
           reactIconsStyle={"mx-5"}
           onClick={onLogOutClick}
         />
-        <SideBarOption
+        {/* <SideBarOption
           Icon={FaHashtag}
           text={"Explore"}
           reactIconsStyle={"mx-5"}
-        />
-        <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
+        /> */}
+        {/* <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
         <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
         <SideBarOption Icon={BookmarkBorderIcon} text={"Bookmarks"} />
         <SideBarOption Icon={ListAltIcon} text={"Lists"} />
-        <SideBarOption Icon={MoreHorizIcon} text={"More"} />
+        <SideBarOption Icon={MoreHorizIcon} text={"More"} /> */}
 
         <Button variant="outlined" className="sidebar__tweet__button" fullWidth>
           Tweet
@@ -53,13 +53,14 @@ const SideBar = ({ onLogOutClick }) => {
       {/* The following div is visible on screen-width > 500px (mobile use) */}
       <div className="sideBar__mob__container flex order-last z-50 border-t-2 justify-between mobile:hidden">
         <SideBarOption active Icon={HomeIcon} text={"Home"} />
+        <SideBarOption Icon={PermIdentityIcon} text={"Profile"} />
+
         <SideBarOption
-          hashTagStyle={"mx-5"}
-          Icon={FaHashtag}
-          text={"Explore"}
+          Icon={ImSwitch}
+          text={"Log Out"}
+          reactIconsStyle={"mx-5"}
+          onClick={onLogOutClick}
         />
-        <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
-        <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
       </div>
     </>
   );

@@ -1,17 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import reducer, { initialState } from "./reducer";
-import { StateProvider } from "./StateProvider";
+import { Provider } from "react-redux";
+import store from "./Redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
 import App from "./App";
 
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
+let persistor = persistStore(store);
+
 ReactDOM.render(
   <React.StrictMode>
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
-    </StateProvider>
+    {/* <StateProvider initialState={initialState} reducer={reducer}> */}
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+    {/* </StateProvider> */}
   </React.StrictMode>,
   document.getElementById("root")
 );

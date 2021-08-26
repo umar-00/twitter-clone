@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useStateValue } from "../../StateProvider";
-import db, { auth } from "../../firebase";
+import { useSelector } from "react-redux";
+import db from "../../firebase";
 import FlipMove from "react-flip-move";
-import { actionTypes } from "../../reducer";
 
 //CSS and icons
 import "./Feed.css";
@@ -12,7 +11,9 @@ import TweetPost from "../TweetPost/TweetPost";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [{ user }, dispatch] = useStateValue();
+  // Logged in user, from globalstore
+  const user = useSelector((state) => JSON.parse(state.user));
+  console.log("Selector user:", user);
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
