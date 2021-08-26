@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useStateValue } from "../../StateProvider";
-import db, { auth } from "../../firebase";
+import { useSelector } from "react-redux";
+import db from "../../firebase";
 import FlipMove from "react-flip-move";
-import { actionTypes } from "../../reducer";
 
 //CSS and icons
 import "./Feed.css";
@@ -12,7 +11,9 @@ import TweetPost from "../TweetPost/TweetPost";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [{ user, isLoggedIn, userId }, dispatch] = useStateValue();
+  // Logged in user, from globalstore
+  const user = useSelector((state) => JSON.parse(state.user));
+  console.log("Selector user:", user);
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
@@ -21,42 +22,7 @@ const Feed = () => {
       .onSnapshot((snapshot) => {
         setPosts(snapshot.docs.map((doc) => [doc.id, doc.data()]));
       });
-
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        // var uid = user.uid;
-        // console.log("Listening: logged in");
-        console.log("Listening:", user.displayName);
-
-        dispatch({
-          type: actionTypes.SET_USER,
-          user: user,
-        });
-        dispatch({
-          type: actionTypes.SET_ISLOGGEDIN,
-          isLoggedIn: true,
-        });
-        dispatch({
-          type: actionTypes.SET_USERID,
-          userId: user.uid,
-        });
-        // console.log("mutating state, pushing history");
-        // console.log("From login page:", user);
-        // history.push("/");
-
-        // console.log("")
-        // ...
-      } else {
-        console.log("User is logged out");
-        // User is signed out
-        // ...
-      }
-    });
   }, []);
-
-  console.log("User from login:", user);
-  console.log("Boolean from login:", isLoggedIn);
-  console.log("UserId from login:", userId);
 
   return (
     <div className="feed__container border-r-2 w-full sm:mr-16 tablet:mr-0 sm:w-8/12 tablet:w-6/12">

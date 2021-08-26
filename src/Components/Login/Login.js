@@ -2,16 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { auth, provider } from "../../firebase";
 import { useStateValue } from "../../StateProvider";
-import { actionTypes } from "../../reducer";
+// import { actionTypes } from "../../reducer";
 import { useHistory } from "react-router-dom";
+import {
+  setUser,
+  setIsLoggedIn,
+  setUserId,
+} from "../../Redux/Slices/userAuthSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Login = () => {
-  // const [stateUser, setStateUser] = useState();
-  const [{ user, isLoggedIn }, dispatch] = useStateValue();
-  console.log("Boolean from login:", isLoggedIn);
-  console.log("User from login:", user);
-
+  const sliceDispatch = useDispatch();
+  // const userAuth = useSelector((state) => state.userAuth);
   const history = useHistory();
+
+  // const [stateUser, setStateUser] = useState();
+  // const [{ user, isLoggedIn }, dispatch] = useStateValue();
+
+  // console.log("Boolean from login:", isLoggedIn);
+  // console.log("User from login:", user);
 
   // useEffect(() => {
   //   auth.onAuthStateChanged((user) => {
@@ -51,14 +61,15 @@ const Login = () => {
     auth
       .signInWithPopup(provider)
       .then((result) => {
+        sliceDispatch(setUser(JSON.stringify(result.user)));
+        sliceDispatch(setIsLoggedIn(1));
+        sliceDispatch(setUserId(result.user.uid));
+
         // dispatch({
         //   type: actionTypes.SET_USER,
         //   user: result.user,
         // });
-        dispatch({
-          type: actionTypes.SET_ISLOGGEDIN,
-          isLoggedIn: true,
-        });
+
         // dispatch({
         //   type: actionTypes.SET_USERID,
         //   userId: result.user.uid,
