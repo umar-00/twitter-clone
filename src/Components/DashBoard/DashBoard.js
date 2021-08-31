@@ -7,7 +7,7 @@ import {
   setUser,
   setIsLoggedIn,
   setUserId,
-} from "../../Redux/Slices/userAuthSlice";
+} from "../../Redux/Slices/userGoogleAuthSlice";
 import { useDispatch } from "react-redux";
 
 import SideBar from "../SideBar/SideBar";
@@ -27,26 +27,8 @@ const DashBoard = () => {
   useEffect(() => {
     auth.onAuthStateChanged((loggedUser) => {
       if (loggedUser) {
-        // sliceDispatch(setUser(JSON.stringify(loggedUser)));
-        // sliceDispatch(setIsLoggedIn(1));
-        // sliceDispatch(setUserId(loggedUser.uid));
-
-        // // var uid = user.uid;
         console.log("Listening: logged in");
-        // console.log("Listening:", user.displayName);
-
-        // dispatch({
-        //   type: actionTypes.SET_USER,
-        //   user: user,
-        // });
-        // dispatch({
-        //   type: actionTypes.SET_ISLOGGEDIN,
-        //   isLoggedIn: true,
-        // });
-        // dispatch({
-        //   type: actionTypes.SET_USERID,
-        //   userId: user.uid,
-        // });
+        console.log(loggedUser);
       } else {
         console.log("User is logged out");
         // User is signed out
@@ -66,19 +48,6 @@ const DashBoard = () => {
         sliceDispatch(setUser(null));
         sliceDispatch(setIsLoggedIn(0));
         sliceDispatch(setUserId(null));
-
-        // dispatch({
-        //   type: actionTypes.SET_USER,
-        //   user: null,
-        // });
-        // dispatch({
-        //   type: actionTypes.SET_ISLOGGEDIN,
-        //   isLoggedIn: false,
-        // });
-        // dispatch({
-        //   type: actionTypes.SET_USERID,
-        //   userId: null,
-        // });
         console.log("Signed out successfully");
         history.push("/login");
       })

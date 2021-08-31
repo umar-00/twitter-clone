@@ -14,13 +14,11 @@ let persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <StateProvider initialState={initialState} reducer={reducer}> */}
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
     </Provider>
-    {/* </StateProvider> */}
   </React.StrictMode>,
   document.getElementById("root")
 );

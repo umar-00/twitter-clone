@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 
-// import avatarImage from "../../Images/tweetbox-avatar.png";
 import { Avatar } from "@material-ui/core";
 import { FiMessageCircle } from "react-icons/fi";
 import { GoVerified } from "react-icons/go";

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PURGE } from "redux-persist";
 
 const initialState = {
   user: null,
@@ -7,7 +6,7 @@ const initialState = {
   userId: null,
 };
 
-const userAuthSlice = createSlice({
+const userGoogleAuthSlice = createSlice({
   name: "userAuth",
   initialState,
   reducers: {
@@ -23,6 +22,7 @@ const userAuthSlice = createSlice({
   },
 });
 
-export const { setUser, setIsLoggedIn, setUserId } = userAuthSlice.actions;
+export const { setUser, setIsLoggedIn, setUserId } =
+  userGoogleAuthSlice.actions;
 
-export default userAuthSlice.reducer;
+export default userGoogleAuthSlice.reducer;

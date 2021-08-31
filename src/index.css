@@ -20,3 +20,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.sidebar__tweet__button {
+  background-color: var(--twitter-color) !important;
+  border: none !important;
+  outline: none !important;
+  color: white !important;
+  font-weight: 900 !important;
+  text-transform: inherit !important;
+  border-radius: 100px !important;
+  height: 50px !important;
+  margin-top: 20px !important;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+}

@@ -11,7 +11,8 @@ import TweetPost from "../TweetPost/TweetPost";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  // Logged in user, from globalstore
+
+  // Logged in user, from Redux globalstore in store.js
   const user = useSelector((state) => JSON.parse(state.user));
   console.log("Selector user:", user);
 
