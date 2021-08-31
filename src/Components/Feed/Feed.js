@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import db from "../../firebase";
 import FlipMove from "react-flip-move";
+import { onSnapshot, collection, query, orderBy } from "firebase/firestore";
 
 //CSS and icons
 import "./Feed.css";
@@ -17,11 +18,24 @@ const Feed = () => {
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
-    db.collection("posts")
-      .orderBy("createdAt", "desc")
-      .onSnapshot((snapshot) => {
-        setPosts(snapshot.docs.map((doc) => [doc.id, doc.data()]));
-      });
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(
+      q,
+      (querySnapshot) => {
+        setPosts(querySnapshot.docs.map((doc) => [doc.id, doc.data()]));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    // Firebase version8:
+    // Add ALL current and newly updated documents on firebase DB to "posts" state
+    // db.collection("posts")
+    //   .orderBy("createdAt", "desc")
+    //   .onSnapshot((snapshot) => {
+    //     setPosts(snapshot.docs.map((doc) => [doc.id, doc.data()]));
+    //   });
   }, []);
 
   return (

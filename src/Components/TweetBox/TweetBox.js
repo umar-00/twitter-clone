@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import db from "../../firebase";
-import firebase from "firebase";
+import { collection, addDoc } from "firebase/firestore";
+// import firebase from "firebase";
+import { serverTimestamp } from "firebase/firestore";
 import { useSelector } from "react-redux";
 
 import "./TweetBox.css";
@@ -15,20 +17,33 @@ const TweetBox = ({ avatarImage, displName }) => {
   const sendTweet = (e) => {
     e.preventDefault();
 
-    // Create server timestamp for when tweet is sent
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+    const addDocumentToFirebase = async () => {
+      const docRef = await addDoc(collection(db, "posts"), {
+        avatarImg: avatarImage,
+        displayName: displName,
+        image: tweetImage,
+        text: tweetMessage,
+        userName: displName.slice(0, 4),
+        verified: true,
+        createdAt: serverTimestamp(),
+        userId: userID,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    };
+
+    addDocumentToFirebase().catch((error) => console.log(error));
 
     // Posting input data to firebase DB as a new document
-    db.collection("posts").add({
-      avatarImg: avatarImage,
-      displayName: displName,
-      image: tweetImage,
-      text: tweetMessage,
-      userName: displName.slice(0, 4),
-      verified: true,
-      createdAt: timestamp(),
-      userId: userID,
-    });
+    // db.collection("posts").add({
+    //   avatarImg: avatarImage,
+    //   displayName: displName,
+    //   image: tweetImage,
+    //   text: tweetMessage,
+    //   userName: displName.slice(0, 4),
+    //   verified: true,
+    //   createdAt: timestamp(),
+    //   userId: userID,
+    // });
 
     setTweetMessage("");
     setTweetImage("");

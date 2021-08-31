@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button } from "@material-ui/core";
 import { auth, provider } from "../../firebase";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 import {
   setUser,
@@ -9,6 +9,7 @@ import {
 } from "../../Redux/Slices/userGoogleAuthSlice";
 import { useDispatch } from "react-redux";
 import { FcGoogle } from "react-icons/fc";
+import { Button } from "@material-ui/core";
 import SignUpModal from "../AuthModals/SignUpModal";
 import LogInModal from "../AuthModals/LogInModal";
 import { useSelector } from "react-redux";
@@ -24,8 +25,7 @@ const AuthPage = () => {
 
   // Triggered by signInByGoogle button onClick
   const signInByGoogle = () => {
-    auth
-      .signInWithPopup(provider)
+    signInWithPopup(auth, provider)
       .then((result) => {
         sliceDispatch(setUser(JSON.stringify(result.user)));
         sliceDispatch(setIsLoggedIn(1));

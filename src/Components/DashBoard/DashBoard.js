@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -26,7 +27,7 @@ const DashBoard = () => {
 
   useEffect(() => {
     setLoading(true);
-    auth.onAuthStateChanged((loggedUser) => {
+    onAuthStateChanged(auth, (loggedUser) => {
       if (loggedUser) {
         console.log("Listening: logged in");
         setLoading(false);
@@ -34,6 +35,15 @@ const DashBoard = () => {
         console.log("User is now logged out");
       }
     });
+
+    // auth.onAuthStateChanged((loggedUser) => {
+    //   if (loggedUser) {
+    //     console.log("Listening: logged in");
+    //     setLoading(false);
+    //   } else {
+    //     console.log("User is now logged out");
+    //   }
+    // });
   }, []);
 
   // console.log("User from login:", user);

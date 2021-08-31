@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import db, { auth } from "../../firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import {
   setUser,
@@ -15,6 +16,7 @@ const ProfileChangeModal = ({ show, onClose }) => {
   const photoURLRef = useRef();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [tweetsMatched, setTweetsMatched] = useState();
 
   //Redux
   const sliceDispatch = useDispatch();
@@ -35,32 +37,39 @@ const ProfileChangeModal = ({ show, onClose }) => {
     // Empty Array for tweets returned by query
     const tweetsQueried = [];
 
-    // Create a reference to the cities collection
-    var tweetCollectionRef = db.collection("posts");
+    const q = query(
+      collection(db, "posts"),
+      where("userId", "==", `${currentUserID}`)
+    );
 
-    //Create a query against the collection and fetch
-    await tweetCollectionRef
-      .where("userId", "==", `${currentUserID}`)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((tweet) => {
-          let currentId = tweet.id;
-          let tweetObj = { ...tweet.data(), ["docId"]: currentId };
-          // Push each matched-tweet to array
-          tweetsQueried.push(tweetObj);
-        });
-      })
-      .catch((error) => console.log(error));
+    // // Create a reference to the cities collection
+    // var tweetCollectionRef = db.collection("posts");
+    // //Create a query against the collection and fetch
+    // await tweetCollectionRef
+    //   .where("userId", "==", `${currentUserID}`)
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     querySnapshot.forEach((tweet) => {
+    //       let currentId = tweet.id;
+    //       let tweetObj = { ...tweet.data(), ["docId"]: currentId };
+    //       // Push each matched-tweet to array
+    //       tweetsQueried.push(tweetObj);
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
     // Return array
-    return tweetsQueried;
+    // return tweetsQueried;
+    setTweetsMatched(tweetsQueried);
   };
+
+  console.log(tweetsMatched);
 
   // Now, after retreiving all matching tweets from user, I now "set"/change their displayName and photoURL
   const updateOldTweets = async () => {
-    const tweetsQueried = await retrieveOldTweets(currentUserID);
+    // const tweetsQueried = await retrieveOldTweets(currentUserID);
 
     // Here, update our new values
-    tweetsQueried.forEach((tweet) => {
+    tweetsMatched.forEach((tweet) => {
       db.collection("posts")
         .doc(`${tweet.docId}`)
         .update("displayName", `${currentUser.displayName}`);
