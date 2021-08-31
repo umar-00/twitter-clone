@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -7,8 +8,11 @@ import {
   setIsLoggedIn,
   setUserId,
 } from "../../Redux/Slices/userGoogleAuthSlice";
+
+// Icons, imgs, CSS
 import { FaExclamationCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import placeHolderAvatar from "../../Images/placeHolderAvatar.png";
 import "./SignUpModal.css";
 
 const SignUpModal = ({ show, onClose }) => {
@@ -37,19 +41,26 @@ const SignUpModal = ({ show, onClose }) => {
     } else {
       setLoading(true);
 
-      auth
-        .createUserWithEmailAndPassword(
-          emailRef.current.value,
-          passwordRef.current.value
-        )
+      createUserWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value
+      )
         .then((result) => {
           console.log("Updating profile");
           console.log("userRef ---->", userNameRef.current.value);
-          // Add username to newly signed up profile
-          return result.user.updateProfile({
+          return updateProfile(auth.currentUser, {
             displayName: userNameRef.current.value,
-            photoURL: photoURLRef.current.value,
+            photoURL: photoURLRef.current.value
+              ? photoURLRef.current.value
+              : placeHolderAvatar,
           });
+
+          // Add username to newly signed up profile
+          // return result.user.updateProfile({
+          //   displayName: userNameRef.current.value,
+          //   photoURL: photoURLRef.current.value,
+          // });
         })
         .then(() => {
           // once updateProfile()'s promise is resolved, do the following:

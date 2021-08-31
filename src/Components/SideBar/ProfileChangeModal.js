@@ -1,6 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import db, { auth } from "../../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useSelector } from "react-redux";
 import {
   setUser,
@@ -16,7 +25,7 @@ const ProfileChangeModal = ({ show, onClose }) => {
   const photoURLRef = useRef();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [tweetsMatched, setTweetsMatched] = useState();
+  // const [tweetsMatched, setTweetsMatched] = useState([]);
 
   //Redux
   const sliceDispatch = useDispatch();
@@ -25,11 +34,11 @@ const ProfileChangeModal = ({ show, onClose }) => {
   const currentUser = useSelector((state) => JSON.parse(state.user));
   const currentUserID = useSelector((state) => state.userId);
   const loggedIn = useSelector((state) => state.isLoggedIn);
-
+  // console.log(currentUser);
   console.log(loggedIn);
 
   useEffect(() => {
-    updateOldTweets();
+    // updateOldTweets().catch((error) => console.log(error));
   }, []);
 
   //Here I want to change all the data inside the firestore db, so that when a user changes their username/photoURL, the new changes are also visible and apply to their old tweets. First, I retrieve all tweets that match the currentUserID
@@ -41,6 +50,14 @@ const ProfileChangeModal = ({ show, onClose }) => {
       collection(db, "posts"),
       where("userId", "==", `${currentUserID}`)
     );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((tweet) => {
+      let currentId = tweet.id;
+      let tweetObj = { ...tweet.data(), ["docId"]: currentId };
+      // Push each matched-tweet to array
+      tweetsQueried.push(tweetObj);
+    });
 
     // // Create a reference to the cities collection
     // var tweetCollectionRef = db.collection("posts");
@@ -58,28 +75,41 @@ const ProfileChangeModal = ({ show, onClose }) => {
     //   })
     //   .catch((error) => console.log(error));
     // Return array
-    // return tweetsQueried;
-    setTweetsMatched(tweetsQueried);
+    return tweetsQueried;
+    // setTweetsMatched(tweetsQueried);
   };
 
-  console.log(tweetsMatched);
+  // console.log(tweetsMatched);
 
-  // Now, after retreiving all matching tweets from user, I now "set"/change their displayName and photoURL
+  // After retreiving all matching tweets from user, I now update their displayName and photoURL inside the Firebase db
   const updateOldTweets = async () => {
-    // const tweetsQueried = await retrieveOldTweets(currentUserID);
-
+    const tweetsQueried = await retrieveOldTweets(currentUserID);
+    // await retrieveOldTweets(currentUserID).catch((error) => console.log(error));
     // Here, update our new values
-    tweetsMatched.forEach((tweet) => {
-      db.collection("posts")
-        .doc(`${tweet.docId}`)
-        .update("displayName", `${currentUser.displayName}`);
-      db.collection("posts")
-        .doc(`${tweet.docId}`)
-        .update("photoURL", `${currentUser.photoURL}`);
-      db.collection("posts")
-        .doc(`${tweet.docId}`)
-        .update("avatarImg", `${currentUser.photoURL}`);
+    // tweetsMatched.forEach(async (tweet) => {
+    console.log(tweetsQueried);
+    tweetsQueried.forEach(async (tweet) => {
+      console.log("updating old tweets....");
+      // console.log("Tweet", tweet);
+      const tweetRef = doc(db, "posts", `${tweet.docId}`);
+      await updateDoc(tweetRef, {
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+        avatarImg: currentUser.photoURL,
+        userName: currentUser.displayName.slice(0, 4),
+      });
     });
+
+    //   db.collection("posts")
+    //     .doc(`${tweet.docId}`)
+    //     .update("displayName", `${currentUser.displayName}`);
+    //   db.collection("posts")
+    //     .doc(`${tweet.docId}`)
+    //     .update("photoURL", `${currentUser.photoURL}`);
+    //   db.collection("posts")
+    //     .doc(`${tweet.docId}`)
+    //     .update("avatarImg", `${currentUser.photoURL}`);
+    // });
   };
 
   // Triggered by changeProfile button onClick
@@ -87,15 +117,14 @@ const ProfileChangeModal = ({ show, onClose }) => {
     e.preventDefault();
 
     setLoading(true);
-    auth.currentUser
-      .updateProfile({
-        displayName: userNameRef.current.value
-          ? userNameRef.current.value
-          : auth.currentUser.displayName,
-        photoURL: photoURLRef.current.value
-          ? photoURLRef.current.value
-          : auth.currentUser.photoURL,
-      })
+    updateProfile(auth.currentUser, {
+      displayName: userNameRef.current.value
+        ? userNameRef.current.value
+        : auth.currentUser.displayName,
+      photoURL: photoURLRef.current.value
+        ? photoURLRef.current.value
+        : auth.currentUser.photoURL,
+    })
       .then(() => {
         const currentuser = auth.currentUser;
 
@@ -103,6 +132,10 @@ const ProfileChangeModal = ({ show, onClose }) => {
         sliceDispatch(setUser(JSON.stringify(currentuser)));
         sliceDispatch(setIsLoggedIn(1));
         sliceDispatch(setUserId(currentuser.uid));
+      })
+      .then(() => {
+        console.log("2nd then statement");
+        updateOldTweets().catch((error) => console.log(error));
       })
       .catch((error) => setError(error.message));
     setError("");

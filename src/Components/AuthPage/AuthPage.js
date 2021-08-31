@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { auth, provider } from "../../firebase";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 import {
   setUser,

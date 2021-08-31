@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -22,7 +23,7 @@ const SignUpModal = ({ show, onClose }) => {
   const history = useHistory();
   const user = useSelector((state) => JSON.parse(state.user));
   console.log(user);
-  console.log(error);
+  // console.log(error);
 
   // Triggered by signInByGoogle button onClick
   const logInByEmail = (e) => {
@@ -30,11 +31,11 @@ const SignUpModal = ({ show, onClose }) => {
 
     console.log("Logging in process...");
     setLoading(true);
-    auth
-      .signInWithEmailAndPassword(
-        emailRef.current.value,
-        passwordRef.current.value
-      )
+    signInWithEmailAndPassword(
+      auth,
+      emailRef.current.value,
+      passwordRef.current.value
+    )
       .then((result) => {
         const currentuser = result.user;
         console.log("Signing in, current user is:", currentuser);

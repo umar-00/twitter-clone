@@ -28,7 +28,6 @@ const TweetBox = ({ avatarImage, displName }) => {
         createdAt: serverTimestamp(),
         userId: userID,
       });
-      console.log("Document written with ID: ", docRef.id);
     };
 
     addDocumentToFirebase().catch((error) => console.log(error));
