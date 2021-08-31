@@ -14,7 +14,7 @@ const Feed = () => {
 
   // Logged in user, from Redux globalstore in store.js
   const user = useSelector((state) => JSON.parse(state.user));
-  console.log("Selector user:", user);
+  // console.log("Selector user:", user);
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state

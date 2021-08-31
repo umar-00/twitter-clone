@@ -33,16 +33,6 @@ const SideBar = ({ onLogOutClick }) => {
           reactIconsStyle={"mx-5"}
           onClick={onLogOutClick}
         />
-        {/* <SideBarOption
-          Icon={FaHashtag}
-          text={"Explore"}
-          reactIconsStyle={"mx-5"}
-        /> */}
-        {/* <SideBarOption Icon={NotificationsNoneIcon} text={"Notifications"} />
-        <SideBarOption Icon={MailOutlineIcon} text={"Messages"} />
-        <SideBarOption Icon={BookmarkBorderIcon} text={"Bookmarks"} />
-        <SideBarOption Icon={ListAltIcon} text={"Lists"} />
-        <SideBarOption Icon={MoreHorizIcon} text={"More"} /> */}
 
         <Button variant="outlined" className="sidebar__tweet__button" fullWidth>
           Tweet

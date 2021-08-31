@@ -4,7 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 
 import "./App.css";
 import "tailwindcss/tailwind.css";
-import Login from "./Components/Login/Login";
+import AuthPage from "./Components/AuthPage/AuthPage";
 
 import DashBoard from "./Components/DashBoard/DashBoard";
 
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Switch>
         <PrivateRoute exact path="/" component={DashBoard} />
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={AuthPage} />
       </Switch>
     </Router>
   );

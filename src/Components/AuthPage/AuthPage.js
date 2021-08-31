@@ -9,12 +9,14 @@ import {
 } from "../../Redux/Slices/userGoogleAuthSlice";
 import { useDispatch } from "react-redux";
 import { FcGoogle } from "react-icons/fc";
-import SignUpModal from "../SignUpModal/SignUpModal";
-import "./Login.css";
+import SignUpModal from "../AuthModals/SignUpModal";
+import LogInModal from "../AuthModals/LogInModal";
+import "./AuthPage.css";
 
-const Login = () => {
+const AuthPage = () => {
   const sliceDispatch = useDispatch();
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
+  const [logInModalIsOpen, setLogInModalIsOpen] = useState(false);
   const history = useHistory();
   console.log(signUpModalIsOpen);
 
@@ -61,6 +63,18 @@ const Login = () => {
           variant="outlined"
           className="sidebar__tweet__button"
           fullWidth
+          onClick={() => setLogInModalIsOpen(true)}
+        >
+          <p className="ml-2">Log In With Email</p>
+        </Button>
+        <LogInModal
+          show={logInModalIsOpen}
+          onClose={() => setLogInModalIsOpen(false)}
+        />
+        <Button
+          variant="outlined"
+          className="sidebar__tweet__button"
+          fullWidth
           onClick={signInByGoogle}
         >
           <FcGoogle size={30} />
@@ -71,4 +85,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AuthPage;
