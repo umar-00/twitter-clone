@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { FcGoogle } from "react-icons/fc";
 import SignUpModal from "../AuthModals/SignUpModal";
 import LogInModal from "../AuthModals/LogInModal";
+import { useSelector } from "react-redux";
 import "./AuthPage.css";
 
 const AuthPage = () => {
@@ -18,7 +19,8 @@ const AuthPage = () => {
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
   const [logInModalIsOpen, setLogInModalIsOpen] = useState(false);
   const history = useHistory();
-  console.log(signUpModalIsOpen);
+  const loggedIn = useSelector((state) => state.isLoggedIn);
+  console.log("logged in: ", loggedIn);
 
   // Triggered by signInByGoogle button onClick
   const signInByGoogle = () => {

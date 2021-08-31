@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import db from "../../firebase";
 import firebase from "firebase";
+import { useSelector } from "react-redux";
 
 import "./TweetBox.css";
 import { Avatar, Button } from "@material-ui/core";
@@ -9,8 +10,7 @@ import { Avatar, Button } from "@material-ui/core";
 const TweetBox = ({ avatarImage, displName }) => {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
-  // console.log(tweetMessage);
-  // console.log(tweetImage);
+  const userID = useSelector((state) => state.userId);
 
   const sendTweet = (e) => {
     e.preventDefault();
@@ -27,6 +27,7 @@ const TweetBox = ({ avatarImage, displName }) => {
       userName: displName.slice(0, 4),
       verified: true,
       createdAt: timestamp(),
+      userId: userID,
     });
 
     setTweetMessage("");
