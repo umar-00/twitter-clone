@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   setUser,
@@ -27,8 +26,6 @@ const SignUpModal = ({ show, onClose }) => {
   //Redux
   const sliceDispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector((state) => JSON.parse(state.user));
-  console.log(user);
 
   // Triggered by signInByGoogle button onClick
   const signInByEmail = (e) => {
@@ -47,8 +44,8 @@ const SignUpModal = ({ show, onClose }) => {
         passwordRef.current.value
       )
         .then((result) => {
-          console.log("Updating profile");
-          console.log("userRef ---->", userNameRef.current.value);
+          // console.log("Updating profile");
+          // console.log("userRef ---->", userNameRef.current.value);
           return updateProfile(auth.currentUser, {
             displayName: userNameRef.current.value,
             photoURL: photoURLRef.current.value
@@ -65,7 +62,7 @@ const SignUpModal = ({ show, onClose }) => {
         .then(() => {
           // once updateProfile()'s promise is resolved, do the following:
           const currentuser = auth.currentUser;
-          console.log("Signing in, current user is:", currentuser);
+          // console.log("Signing in, current user is:", currentuser);
           // Add currentuser's data to Redux global storage
           sliceDispatch(setUser(JSON.stringify(currentuser)));
           sliceDispatch(setIsLoggedIn(1));
@@ -138,14 +135,14 @@ const SignUpModal = ({ show, onClose }) => {
             className="signUpInput"
             ref={passwordConfirmRef}
           />
-          <label className="signUpLabel">User Name</label>
+          <label className="signUpLabel">Display Name</label>
           <input
             type="text"
             id="username"
             name="username"
             required
             minLength="4"
-            placeholder="User Name"
+            placeholder="Display Name"
             className="signUpInput"
             ref={userNameRef}
           />

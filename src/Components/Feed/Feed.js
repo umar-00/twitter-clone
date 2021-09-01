@@ -20,7 +20,7 @@ const Feed = () => {
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(
+    onSnapshot(
       q,
       (querySnapshot) => {
         setPosts(querySnapshot.docs.map((doc) => [doc.id, doc.data()]));
@@ -29,6 +29,8 @@ const Feed = () => {
         console.log(error);
       }
     );
+
+    // unsubscribe();
 
     // Firebase version8:
     // Add ALL current and newly updated documents on firebase DB to "posts" state

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import {
   setUser,
@@ -19,9 +18,6 @@ import Loader from "../Loader/Loader";
 const DashBoard = () => {
   const sliceDispatch = useDispatch();
   const [loading, setLoading] = useState([]);
-  const user = useSelector((state) => JSON.parse(state.user));
-  // const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  // console.log("isLoggedIn from DashBaord:", isLoggedIn);
 
   const history = useHistory();
 
@@ -29,26 +25,13 @@ const DashBoard = () => {
     setLoading(true);
     onAuthStateChanged(auth, (loggedUser) => {
       if (loggedUser) {
-        console.log("Listening: logged in");
+        console.log("Succesfully logged in!");
         setLoading(false);
       } else {
         console.log("User is now logged out");
       }
     });
-
-    // auth.onAuthStateChanged((loggedUser) => {
-    //   if (loggedUser) {
-    //     console.log("Listening: logged in");
-    //     setLoading(false);
-    //   } else {
-    //     console.log("User is now logged out");
-    //   }
-    // });
   }, []);
-
-  // console.log("User from login:", user);
-  // console.log("Boolean from login:", isLoggedIn);
-  // console.log("UserId from login:", userId);
 
   const signOut = () => {
     auth
@@ -63,8 +46,6 @@ const DashBoard = () => {
       .catch((error) => {
         alert(error);
       });
-
-    console.log("after signing out, user:", user);
   };
 
   return !loading ? (

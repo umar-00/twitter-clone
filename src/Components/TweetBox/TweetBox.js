@@ -18,7 +18,7 @@ const TweetBox = ({ avatarImage, displName }) => {
     e.preventDefault();
 
     const addDocumentToFirebase = async () => {
-      const docRef = await addDoc(collection(db, "posts"), {
+      await addDoc(collection(db, "posts"), {
         avatarImg: avatarImage,
         displayName: displName,
         image: tweetImage,

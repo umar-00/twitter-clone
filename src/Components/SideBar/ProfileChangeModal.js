@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import db, { auth } from "../../firebase";
 import { updateProfile } from "firebase/auth";
 
@@ -24,21 +24,18 @@ const ProfileChangeModal = ({ show, onClose }) => {
   const userNameRef = useRef();
   const photoURLRef = useRef();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   // const [tweetsMatched, setTweetsMatched] = useState([]);
 
   //Redux
   const sliceDispatch = useDispatch();
-  const currentUser = useSelector((state) => JSON.parse(state.user));
   const currentUserID = useSelector((state) => state.userId);
-  const loggedIn = useSelector((state) => state.isLoggedIn);
 
   // console.log(currentUser);
-  console.log(loggedIn);
+  // console.log(loggedIn);
 
   const changeProfile = async () => {
-    console.log("entering changeProfile()");
+    // console.log("entering changeProfile()");
     // console.log("name before changeProfile(): ", currentUser.displayName);
     // setLoading(true);
     updateProfile(auth.currentUser, {
@@ -63,9 +60,8 @@ const ProfileChangeModal = ({ show, onClose }) => {
         // console.log("name after changeProfile(): ", currentUser.displayName);
       })
       .then((newUser) => {
-        console.log("from 2nd then statement", newUser.displayName);
+        // console.log("from 2nd then statement", newUser.displayName);
         updateOldTweets(newUser).catch((error) => console.log(error));
-        console.log("exiting changeProfile()");
       })
       .catch((error) => setError(error));
 
@@ -85,7 +81,7 @@ const ProfileChangeModal = ({ show, onClose }) => {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((tweet) => {
       let currentId = tweet.id;
-      let tweetObj = { ...tweet.data(), ["docId"]: currentId };
+      let tweetObj = { ...tweet.data(), ["docId"]: currentId }; // eslint-disable-line
       // Push each matched-tweet to array
       tweetsQueried.push(tweetObj);
     });
@@ -93,14 +89,12 @@ const ProfileChangeModal = ({ show, onClose }) => {
     // setTweetsMatched(tweetsQueried);
   };
 
-  // console.log(tweetsMatched);
-
   // After retreiving all matching tweets from user, I now update their displayName and photoURL inside the Firebase db
   const updateOldTweets = async (newUser) => {
     const tweetsQueried = await retrieveOldTweets(currentUserID).catch(
       (error) => console.log(error)
     );
-    console.log("Entering updateOldTweets");
+    // console.log("Entering updateOldTweets");
 
     // Here, update our new values
     // tweetsMatched.forEach(async (tweet) => {

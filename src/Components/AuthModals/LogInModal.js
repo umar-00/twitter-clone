@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   setUser,
@@ -21,7 +20,7 @@ const SignUpModal = ({ show, onClose }) => {
   //Redux
   const sliceDispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector((state) => JSON.parse(state.user));
+  // const user = useSelector((state) => JSON.parse(state.user));
   // console.log(error);
 
   // Triggered by signInByGoogle button onClick
@@ -37,7 +36,7 @@ const SignUpModal = ({ show, onClose }) => {
     )
       .then((result) => {
         const currentuser = result.user;
-        console.log("Signing in, current user is:", currentuser);
+        // console.log("Signing in, current user is:", currentuser);
         // Add currentuser's data to Redux global storage
         sliceDispatch(setUser(JSON.stringify(currentuser)));
         sliceDispatch(setIsLoggedIn(1));
