@@ -22,7 +22,6 @@ const SignUpModal = ({ show, onClose }) => {
   const sliceDispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => JSON.parse(state.user));
-  console.log(user);
   // console.log(error);
 
   // Triggered by signInByGoogle button onClick

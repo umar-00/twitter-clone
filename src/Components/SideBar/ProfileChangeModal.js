@@ -25,21 +25,52 @@ const ProfileChangeModal = ({ show, onClose }) => {
   const photoURLRef = useRef();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   // const [tweetsMatched, setTweetsMatched] = useState([]);
 
   //Redux
   const sliceDispatch = useDispatch();
-  //   const currentUserID = auth.currentUser.uid;
-
   const currentUser = useSelector((state) => JSON.parse(state.user));
   const currentUserID = useSelector((state) => state.userId);
   const loggedIn = useSelector((state) => state.isLoggedIn);
+
   // console.log(currentUser);
   console.log(loggedIn);
 
-  useEffect(() => {
-    // updateOldTweets().catch((error) => console.log(error));
-  }, []);
+  const changeProfile = async () => {
+    console.log("entering changeProfile()");
+    // console.log("name before changeProfile(): ", currentUser.displayName);
+    // setLoading(true);
+    updateProfile(auth.currentUser, {
+      displayName: userNameRef.current.value
+        ? userNameRef.current.value
+        : auth.currentUser.displayName,
+      photoURL: photoURLRef.current.value
+        ? photoURLRef.current.value
+        : auth.currentUser.photoURL,
+    })
+      .then(() => {
+        const currentuser = auth.currentUser;
+        // console.log("Current User inside then(): ", currentuser.displayName);
+
+        // Add currentuser's data to Redux global storage
+        sliceDispatch(setUser(JSON.stringify(currentuser)));
+        sliceDispatch(setIsLoggedIn(1));
+        sliceDispatch(setUserId(currentuser.uid));
+        // console.log("newly changed name is: ", currentuser.displayName);
+        return currentuser;
+        // return currentuser;
+        // console.log("name after changeProfile(): ", currentUser.displayName);
+      })
+      .then((newUser) => {
+        console.log("from 2nd then statement", newUser.displayName);
+        updateOldTweets(newUser).catch((error) => console.log(error));
+        console.log("exiting changeProfile()");
+      })
+      .catch((error) => setError(error));
+
+    // return currentuser.displayName;
+  };
 
   //Here I want to change all the data inside the firestore db, so that when a user changes their username/photoURL, the new changes are also visible and apply to their old tweets. First, I retrieve all tweets that match the currentUserID
   const retrieveOldTweets = async (currentUserID) => {
@@ -58,23 +89,6 @@ const ProfileChangeModal = ({ show, onClose }) => {
       // Push each matched-tweet to array
       tweetsQueried.push(tweetObj);
     });
-
-    // // Create a reference to the cities collection
-    // var tweetCollectionRef = db.collection("posts");
-    // //Create a query against the collection and fetch
-    // await tweetCollectionRef
-    //   .where("userId", "==", `${currentUserID}`)
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.forEach((tweet) => {
-    //       let currentId = tweet.id;
-    //       let tweetObj = { ...tweet.data(), ["docId"]: currentId };
-    //       // Push each matched-tweet to array
-    //       tweetsQueried.push(tweetObj);
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
-    // Return array
     return tweetsQueried;
     // setTweetsMatched(tweetsQueried);
   };
@@ -82,64 +96,43 @@ const ProfileChangeModal = ({ show, onClose }) => {
   // console.log(tweetsMatched);
 
   // After retreiving all matching tweets from user, I now update their displayName and photoURL inside the Firebase db
-  const updateOldTweets = async () => {
-    const tweetsQueried = await retrieveOldTweets(currentUserID);
-    // await retrieveOldTweets(currentUserID).catch((error) => console.log(error));
+  const updateOldTweets = async (newUser) => {
+    const tweetsQueried = await retrieveOldTweets(currentUserID).catch(
+      (error) => console.log(error)
+    );
+    console.log("Entering updateOldTweets");
+
     // Here, update our new values
     // tweetsMatched.forEach(async (tweet) => {
-    console.log(tweetsQueried);
+    // console.log(tweetsQueried);
     tweetsQueried.forEach(async (tweet) => {
-      console.log("updating old tweets....");
-      // console.log("Tweet", tweet);
       const tweetRef = doc(db, "posts", `${tweet.docId}`);
+      // console.log("name from update tweet function", currentUser.displayName);
       await updateDoc(tweetRef, {
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-        avatarImg: currentUser.photoURL,
-        userName: currentUser.displayName.slice(0, 4),
+        displayName: newUser.displayName,
+        photoURL: newUser.photoURL,
+        avatarImg: newUser.photoURL,
+        userName: newUser.displayName.slice(0, 4),
       });
     });
-
-    //   db.collection("posts")
-    //     .doc(`${tweet.docId}`)
-    //     .update("displayName", `${currentUser.displayName}`);
-    //   db.collection("posts")
-    //     .doc(`${tweet.docId}`)
-    //     .update("photoURL", `${currentUser.photoURL}`);
-    //   db.collection("posts")
-    //     .doc(`${tweet.docId}`)
-    //     .update("avatarImg", `${currentUser.photoURL}`);
-    // });
   };
 
   // Triggered by changeProfile button onClick
-  const changeProfile = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
-    updateProfile(auth.currentUser, {
-      displayName: userNameRef.current.value
-        ? userNameRef.current.value
-        : auth.currentUser.displayName,
-      photoURL: photoURLRef.current.value
-        ? photoURLRef.current.value
-        : auth.currentUser.photoURL,
-    })
-      .then(() => {
-        const currentuser = auth.currentUser;
+    await changeProfile();
+    // await updateOldTweets();
 
-        // Add currentuser's data to Redux global storage
-        sliceDispatch(setUser(JSON.stringify(currentuser)));
-        sliceDispatch(setIsLoggedIn(1));
-        sliceDispatch(setUserId(currentuser.uid));
-      })
-      .then(() => {
-        console.log("2nd then statement");
-        updateOldTweets().catch((error) => console.log(error));
-      })
-      .catch((error) => setError(error.message));
+    // changeProfile().then(() => {
+    //   // console.log(currentuser);
+    //   updateOldTweets();
+    // });
+    // await updateOldTweets();
     setError("");
-    setLoading(false);
+    // setLoading(false);
+    onClose();
+    // await updateOldTweets().catch((error) => console.log(error));
   };
 
   if (!show) {
@@ -170,11 +163,12 @@ const ProfileChangeModal = ({ show, onClose }) => {
           </div>
         )}
 
-        <form action="" onSubmit={changeProfile}>
+        <form action="" onSubmit={handleSubmit}>
           <label className="signUpLabel">Change Display Name</label>
           <input
             type="text"
             name="username"
+            minLength="4"
             placeholder="User Name"
             className="signUpInput"
             ref={userNameRef}
@@ -193,7 +187,7 @@ const ProfileChangeModal = ({ show, onClose }) => {
             type="submit"
             value="Submit Changes"
             className="submitButton"
-            disabled={loading}
+            // disabled={loading}
           />
         </form>
       </div>

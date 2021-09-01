@@ -144,6 +144,7 @@ const SignUpModal = ({ show, onClose }) => {
             id="username"
             name="username"
             required
+            minLength="4"
             placeholder="User Name"
             className="signUpInput"
             ref={userNameRef}
