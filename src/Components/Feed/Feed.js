@@ -15,7 +15,6 @@ const Feed = () => {
 
   // Logged in user, from Redux globalstore in store.js
   const user = useSelector((state) => JSON.parse(state.user));
-  // console.log(user);
 
   useEffect(() => {
     // Add ALL current and newly updated documents on firebase DB to "posts" state
@@ -29,16 +28,6 @@ const Feed = () => {
         console.log(error);
       }
     );
-
-    // unsubscribe();
-
-    // Firebase version8:
-    // Add ALL current and newly updated documents on firebase DB to "posts" state
-    // db.collection("posts")
-    //   .orderBy("createdAt", "desc")
-    //   .onSnapshot((snapshot) => {
-    //     setPosts(snapshot.docs.map((doc) => [doc.id, doc.data()]));
-    //   });
   }, []);
 
   return (

@@ -42,7 +42,7 @@ const SideBar = ({ onLogOutClick }) => {
       </div>
 
       {/* The following div is visible on screen-width > 500px (mobile use) */}
-      <div className="sideBar__mob__container flex order-last z-50 border-t-2 justify-between mobile:hidden">
+      <div className="sideBar__mob__container flex order-last sticky z-50 bottom-0 bg-white border-t-2 justify-between mobile:hidden">
         <SideBarOption active Icon={HomeIcon} text={"Home"} />
         <SideBarOption
           Icon={PermIdentityIcon}
@@ -54,7 +54,6 @@ const SideBar = ({ onLogOutClick }) => {
           show={profileChangeModalIsOpen}
           onClose={() => setProfileChangeModalIsOpen(false)}
         />
-
         <SideBarOption
           Icon={ImSwitch}
           text={"Log Out"}

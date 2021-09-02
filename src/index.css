@@ -34,3 +34,7 @@ code {
   margin-left: 10px !important;
   margin-right: 10px !important;
 }
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
